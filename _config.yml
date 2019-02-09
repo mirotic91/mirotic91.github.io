@@ -1,0 +1,26 @@
+# Site settings
+title: Mirotic Blog
+email: jonguk1221@gmail.com
+description: Java Backend Developer
+baseurl: ""
+url: ""
+#twitter_username: 
+github_username: mirotic91
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
