@@ -61,8 +61,10 @@
   background-size: cover;
 }
 @mixin serif-font() {
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Nanum Gothic', serif;
 }
 @mixin sans-serif-font() {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Nanum Gothic', sans-serif;
 }
+
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
