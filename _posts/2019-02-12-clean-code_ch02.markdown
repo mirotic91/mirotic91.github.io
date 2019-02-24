@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Ch02. 의미있는 이름"
+subtitle: 의도가 분명한 이름을 짓자
 date: 2019-02-12 23:55:36 +0900
 categories: book clean-code
 ---
