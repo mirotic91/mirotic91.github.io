@@ -3,7 +3,7 @@ layout: post
 title: "Ch03. 함수"
 subtitle: 한 가지만 하는 작은 함수를 만들자
 date: 2019-02-14 22:35:03 +0900
-categories: book clean-code
+categories: CleanCode
 ---
 
 # 함수

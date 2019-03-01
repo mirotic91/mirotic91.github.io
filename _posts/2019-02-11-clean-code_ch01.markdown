@@ -3,7 +3,7 @@ layout: post
 title: "Ch01. 클린 코드"
 subtitle: 읽기 좋은 코드를 작성하자
 date: 2019-02-11 22:15:06 +0900
-categories: book clean-code
+categories: CleanCode
 ---
 
 # 클린 코드
