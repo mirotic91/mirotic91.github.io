@@ -4,6 +4,7 @@ title: "Ch04. 주석"
 subtitle: 주석을 달지 말고 코드로 표현하자
 date: 2019-02-21 22:55:53 +0900
 categories: CleanCode
+tags: CleanCode
 ---
 
 # 주석

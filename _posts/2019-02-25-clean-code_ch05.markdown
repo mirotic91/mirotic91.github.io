@@ -4,6 +4,7 @@ title: "Ch05. 형식 맞추기"
 subtitle: 형식을 깔끔하게 맞춰 코드를 짜자
 date: 2019-02-25 22:45:13 +0900
 categories: CleanCode
+tags: CleanCode
 ---
 
 # 형식 맞추기
