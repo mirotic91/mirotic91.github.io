@@ -4,7 +4,7 @@ title: "Spring Cache"
 subtitle: 스프링 캐시 적용하기 
 date: 2017-10-06 12:00:00 +0900
 categories: Spring
-tags: Spring, cache
+tags: Spring Cache
 ---
 
 ## 캐시 추상화
