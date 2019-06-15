@@ -71,7 +71,7 @@ public class ConfigServerApplication {
 }
 ```
 
-{Git Repo} 에는 자신의 Git Repository 경로를 설정한다.
+*{Git Repo}* 에는 자신의 Git Repository 경로를 설정한다.
 
 ```yml
 # application.yml
@@ -210,6 +210,105 @@ active profile 에 따라 설정 값을 정상적으로 가져오는 것을 확�
    ```
 
 ---
+
+### Refresh
+`Config Client` 가 `Config Server` 의 변경된 설정을 인지하기 위해서는 추가 설정이 필요하다.
+
+`Config Server` 로 부터 갱신된 설정을 받아올 수 있는 URI(/actuator/refresh)를 노출하도록 `Config Client` 의 `bootstrap.yml` 에 아래 설정을 추가해준다.
+```yml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "refresh"
+```
+
+`@RefreshScope` 어노테이션은 설정 값이 변경되었을 때 `Config Server` 의 변경된 값을 갱신하기 위해 추가한다.
+```java
+@Component
+@RefreshScope
+@ConfigurationProperties("application")
+@Getter @Setter
+public class ConfigProperties {
+
+    private String message;
+}
+
+```
+
+### Test
+
+> active profile : dev
+
+refresh 유무를 확인하기 위해 `Config Client` 2대를 각각 다른 포트로 실행한다.  
+아래와 같이 각 VM Options 에 8081 포트와 8082 포트로 설정했다.
+![AppPort](/img/spring-boot/app-port.png)
+
+먼저 8081 포트로 실행한 클라이언트에서 호출하면 프로퍼티 값을 잘 가져온다.
+   ```
+   GET http://127.0.0.1:8081/config
+   
+   HTTP/1.1 200 
+   Content-Type: text/plain;charset=UTF-8
+   Content-Length: 39
+   Date: Thu, 30 May 2019 23:46:41 GMT
+    
+   Message From <DEV> Git Repository
+    
+   Response code: 200; Time: 168ms; Content length: 39 bytes
+   ```
+
+`Git Repository` 에 있는 *msa-dev.yml* 의 프로퍼티 값을 변경해주고 refresh 요청을 한다.
+   ```
+   POST http://127.0.0.1:8081/actuator/refresh
+    
+   HTTP/1.1 200 
+   Content-Type: application/vnd.spring-boot.actuator.v2+json;charset=UTF-8
+   Transfer-Encoding: chunked
+   Date: Sun, 02 Jun 2019 23:39:04 GMT
+    
+   [
+       "config.client.version",
+       "application.message"
+   ]
+    
+   Response code: 200; Time: 1146ms; Content length: 2 bytes
+   ```
+
+*application.message* 의 변경이 감지되었으니 변경된 값을 가져오는지 확인해보자.
+   ```
+   GET http://127.0.0.1:8081/config
+    
+   HTTP/1.1 200 
+   Content-Type: text/plain;charset=UTF-8
+   Content-Length: 56
+   Date: Sun, 02 Jun 2019 23:40:15 GMT
+    
+   Message From <DEV> Git Repository - refresh test -
+    
+   Response code: 200; Time: 21ms; Content length: 56 bytes
+   ```
+
+다음은 8082 포트로 실행한 클라이언트의 값을 확인해보자.
+   ```
+   GET http://127.0.0.1:8082/config
+   
+   HTTP/1.1 200 
+   Content-Type: text/plain;charset=UTF-8
+   Content-Length: 39
+   Date: Thu, 30 May 2019 23:46:41 GMT
+   
+   Message From <DEV> Git Repository
+   
+   Response code: 200; Time: 168ms; Content length: 39 bytes
+   ```
+
+8081 포트로 실행한 클라이언트에서만 refresh 를 호출하였으므로 8082 포트로 실행한 클라이언트에서는 여전히 갱신되지 않은 값을 가져온다.
+
+---
+
+`Config Client` 가 여럿으로 구성된 경우에는 각 클라이언트마다 refresh 호출해줘야 하는 번거로움이 있다.
+`Spring Cloud Bus` 를 이용하여 구현하면 *message broker* 나 *webhook* 을 통해 변경을 전파하여 자동으로 갱신시킬 수 있다.
 
 <br>
 ##### Reference
