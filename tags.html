@@ -2,6 +2,7 @@
 layout: page
 permalink: /tags/
 title: Tags
+background: '/img/bg-post.jpg'
 ---
 
 
@@ -12,8 +13,8 @@ title: Tags
         <div id="#{{ tag_name | slugize }}"></div>
         <p></p>
 
-        <h3 class="tag-head"><img src="/img/tag.svg" alt="#"> {{ tag_name }}</h3>
         <a name="{{ tag_name | slugize }}"></a>
+        <h3 class="tag-head"><img src="/img/tag.svg" alt="#"> {{ tag_name }}</h3>
         {% for post in site.tags[tag_name] %}
         <article class="archive-item">
             <a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a>

@@ -7,3 +7,11 @@
     text-decoration-line: none;
   }
 }
+
+.tags {
+  > a {
+    color : $info;
+    font-style: italic;
+    text-decoration-line: none;
+  }
+}
