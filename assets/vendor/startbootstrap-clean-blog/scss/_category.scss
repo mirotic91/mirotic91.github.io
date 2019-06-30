@@ -1,6 +1,9 @@
 .category-head {
   color: $info;
   margin-bottom: 0.75rem;
+  .size {
+    font-size: smaller;
+  }
 }
 
 .archive-item {
