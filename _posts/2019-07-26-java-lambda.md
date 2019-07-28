@@ -92,6 +92,39 @@ Apple a3 = c3.apply("green", 100);
 - `Predicate` : negate, and, or
 - `Function` : andThen, compose
 
+> 학습 내용을 토대로 코드를 간결하게 표현해보자
+
+```java
+// 1. 동작을 파라미터화하여 코드 전달
+public class AppleComparator implements Comparator<Apple> {
+	public int compare(Apple a1, Apple a2) {
+		return a1.getWeight().compareTo(a2.getWeight());
+	}
+}
+
+inventory.sort(new AppleComparator());
+```
+
+```java
+// 2. 익명클래스 사용
+inventory.sort(new Comparator<Apple>() {
+  public int compare(Apple a1, Apple a2) {
+      return a1.getWeight().compareTo(a2.getWeight());
+    }
+});
+```
+
+```java
+// 3. 람다 표현식 사용
+inventory.sort((Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight()));
+inventory.sort(comparing((a -> a.getWeight()));
+```
+
+```java
+// 4. 메서드 레퍼런스 사용
+inventory.sort(comparing(Apple::getWeight()));
+```
+
 <br>
 ##### Reference
 - *Java8 in Action*
