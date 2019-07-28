@@ -97,9 +97,9 @@ Apple a3 = c3.apply("green", 100);
 ```java
 // 1. 동작을 파라미터화하여 코드 전달
 public class AppleComparator implements Comparator<Apple> {
-	public int compare(Apple a1, Apple a2) {
-		return a1.getWeight().compareTo(a2.getWeight());
-	}
+  public int compare(Apple a1, Apple a2) {
+    return a1.getWeight().compareTo(a2.getWeight());
+  }
 }
 
 inventory.sort(new AppleComparator());
@@ -109,8 +109,8 @@ inventory.sort(new AppleComparator());
 // 2. 익명클래스 사용
 inventory.sort(new Comparator<Apple>() {
   public int compare(Apple a1, Apple a2) {
-      return a1.getWeight().compareTo(a2.getWeight());
-    }
+    return a1.getWeight().compareTo(a2.getWeight());
+  }
 });
 ```
 
