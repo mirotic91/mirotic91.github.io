@@ -37,6 +37,15 @@ Java8 에서는 이 문제를 해결하는 새로운 기능을 제공한다.
 
 ---
 
+### 변화하는 API
+인터페이스에 메서드를 추가했을 때는 바이너리 호환성을 유지하지만 인터페이스를 구현하는 클래스를 재컴파일하면 에러가 발생한다.
+- `바이너리 호환성` : 뭔가를 바꾼 이후에도 에러 없이 기존 바이너리가 실행될 수 있음을 의미한다.
+  - ex) 인터페이스에 메서드 추가 후 호출하지 않는 한 에러가 발생하지 않는다.
+- `소스 호환성` : 코드를 고쳐도 기존 프로그램을 성공적으로 재컴파일할 수 있음을 의미한다.
+- `동작 호환성` : 코드를 바꾼 다음에도 같은 입력값이 주어지면 프로그램이 같은 동작을 실행함을 의미한다.
+
+---
+
 ### 디폴트 메서드 활용 패턴
 - `선택형 메서드` : 해당 메서드가 필요한 구현체에서만 구현할 수 있다. 빈 메서드를 구현할 필요가 없어졌고, 불필요한 코드를 줄일 수 있다.
 - `동작 다중 상속` : 여러 인터페이스에서 동작을 상속받을 수 있다. 중복되지 않는 최소한의 인터페이스를 유지한다면 코드에서 동작을 쉽게 재사용하고 조합할 수 있다. 
@@ -53,11 +62,94 @@ C++는 클래스의 **다중 상속**을 지원한다. 클래스 D가 클래스 
 결과적으로 A의 메서드를 사용할 때 B의 메서드인지 C의 메서드인지 명시적으로 해결해야 한다. 
 또한 클래스는 상태를 가질 수 있으므로 B의 멤버 변수를 고쳐도 C 객체의 복사본에 반영되지 않는다.
 
-같은 디폴트 메서드 시그너처를 갖는 여러 메서드를 상속받는 충돌 문제를 해결할 수 있는 세 가지 규칙을 제시한다.
-1. **클래스가 항상 이긴다.** 클래스나 슈퍼클래스에서 정의한 메서드가 디폴트 메서드보다 우선권을 갖는다.
-2. 위 규칙 이외의 경우 **서브인터페이스가 이긴다.** 상속관계를 갖는 인터페이스에서 같은 시그너처를 갖는 메서드를 정의할 때는 서브인터페이스가 이긴다.
-3. 여전히 디폴트 메서드의 **우선순위가 결정되지 않았다면** 여러 인터페이스를 상속받는 클래스가 **명시적으로 디폴트 메서드를 오버라이드하고 호출**해야 한다. 
-    - ex) B.super.hello();
+같은 디폴트 메서드 시그너처를 갖는 여러 메서드를 상속받는 **충돌 문제를 해결할 수 있는 세 가지 규칙**을 제시한다.
+- 첫째, **클래스가 항상 이긴다.** 클래스나 슈퍼클래스에서 정의한 메서드가 디폴트 메서드보다 우선권을 갖는다.
+
+```java
+public interface A {
+
+    default void print() {
+        System.out.println("print A");
+    }
+}
+
+public interface B extends A {
+
+    default void print() {
+        System.out.println("print B");
+    }
+}
+public class C implements A {
+    
+    @Override
+    public void print() {
+        System.out.println("print C");
+    }
+}
+
+public class D extends C implements B { }
+
+// print C
+```
+
+- 둘째, 위 규칙 이외의 경우 **서브인터페이스가 이긴다.** 상속관계를 갖는 인터페이스에서 같은 시그너처를 갖는 메서드를 정의할 때는 서브인터페이스가 이긴다.
+
+```java
+public interface A {
+
+    default void print() {
+        System.out.println("print A");
+    }
+}
+
+public interface B extends A {
+
+    default void print() {
+        System.out.println("print B");
+    }
+}
+
+public interface C extends A { }
+
+public class D implements B, C { }
+
+// print B
+```
+
+- 셋째, 여전히 디폴트 메서드의 **우선순위가 결정되지 않았다면** 여러 인터페이스를 상속받는 클래스가 **명시적으로 디폴트 메서드를 오버라이드하고 호출**해야 한다.
+
+```java
+public interface A {
+
+    default void print() {
+        System.out.println("print A");
+    }
+}
+
+public interface B extends A {
+
+    default void print() {
+        System.out.println("print B");
+    }
+}
+
+public interface C extends A {
+
+    default void print() {
+        System.out.println("print C");
+    }
+}
+
+public class D implements B, C { 
+    
+    @Override
+    void print() {
+        B.super.print();
+    }
+}
+
+// print B
+``` 
 
 <br>
 ##### Reference
