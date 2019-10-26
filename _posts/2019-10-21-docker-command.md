@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Docker 기본 명령어"
-subtitle: ""
+subtitle: "docker 기본 명령어를 알아보자"
 date: 2019-10-21 21:10:00 +0900
 categories: docker
 tags: docker
@@ -31,6 +31,7 @@ tag 를 생략하면 latest 버전으로 다운로드된다.
 ```bash
 $ docker images
 ```
+![docker images](/img/docker/images.png)
 
 ---
 
@@ -47,6 +48,7 @@ $ docker run <repository>:<tag>
 --name : 컨테이너 이름
 --rm : 컨테이너 종료시 삭제  
 ```
+![docker run](/img/docker/run.png)
 
 ---
 
@@ -65,6 +67,7 @@ $ docker ps
 ```bash
 $ docker exec <container> <command>
 ```
+![docker exec](/img/docker/exec.png)
 
 ---
 
@@ -80,6 +83,9 @@ $ docker attach <container>
 실행중인 컨테이너를 중지한다.
 ```bash
 $ docker stop <container>
+
+# 모든 컨테이너 중지
+$ docker rm $(docker ps -a -q)
 ```
 
 ---
@@ -89,6 +95,7 @@ $ docker stop <container>
 ```bash
 $ docker start <container>
 ```
+![docker restart](/img/docker/restart.png)
 
 ---
 
@@ -104,7 +111,11 @@ $ docker restart <container>
 생성된 컨테이너를 삭제한다.
 ```bash
 $ docker rm <container>
+
+# 모든 컨테이너 삭제
+$ docker rm $(docker ps -a -q) 
 ```
+![docker rm](/img/docker/rm.png)
 
 ---
 
