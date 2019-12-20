@@ -72,6 +72,16 @@ henry,henry@mail.com,01044779911
 
 ---
 
+#### +Tip? Docker 컨테이너에서 호스트로 파일 복사
+`Docker` 환경에서 `MongoDB` 를 구축했던터라 굳이 로컬에 설치하고 싶지 않아 도커에서 `mongoexport` 하여 로컬로 파일을 가져왔다.
+
+Docker 컨테이너에서 호스트로 파일 가져오기
+```bash
+$ docker cp [container name]:[container file path] [localhost file path]
+``` 
+
+---
+
 <br>
 ##### Reference
 - *[Docs](https://docs.mongodb.com/manual/reference/program/mongoexport)*
